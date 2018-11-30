@@ -6,8 +6,6 @@ I use:
 
 - _npm_ - as task runner.
 - _jest_ - as [testing and coverage framework](https://facebook.github.io/jest/) to write specs in **TypeScript** itself. You can choose to use _mocha_ instead.
-s asked and then quiety get out of the way!
-
 ## Usage
 
 Install `generator-cloudflare-worker` globally.
