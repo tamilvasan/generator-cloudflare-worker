@@ -5,8 +5,8 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
-describe('node-typescript:app with mocha', function() {
-  before(function(done) {
+describe('node-typescript:app with mocha', function () {
+  before(function (done) {
     helpers
       .run(path.join(__dirname, '../generators/app'))
       .withOptions({
@@ -16,14 +16,14 @@ describe('node-typescript:app with mocha', function() {
       .on('end', done);
   });
 
-  it('creates project files', function() {
+  it('creates project files', function () {
     assert.file([
       '.vscode/tasks.json',
       '.vscode/settings.json',
-      'src/greeter.ts',
-      'src/index.ts',
-      'test/greeter-spec.ts',
-      'test/index-spec.ts',
+      'src/worker.ts',
+      'src/worker-header.js',
+      'test/worker-spec.ts',
+      'mock.ts',
       'package.json',
       'tsconfig.json',
       'tslint.json',
@@ -37,41 +37,9 @@ describe('node-typescript:app with mocha', function() {
   });
 });
 
-describe('node-typescript:app with ava', function() {
-  before(function(done) {
-    helpers
-      .run(path.join(__dirname, '../generators/app'))
-      .withOptions({
-        skipInstall: true,
-        ava: true
-      })
-      .on('end', done);
-  });
 
-  it('creates project files', function() {
-    assert.file([
-      '.vscode/tasks.json',
-      '.vscode/settings.json',
-      'src/greeter.ts',
-      'src/index.ts',
-      'test/greeter-spec.ts',
-      'test/index-spec.ts',
-      'package.json',
-      'tsconfig.json',
-      'tsconfig.test.json',
-      'tslint.json',
-      '.travis.yml',
-      '.editorconfig',
-      '.gitignore',
-      '.npmignore',
-      'LICENSE',
-      'README.md'
-    ]);
-  });
-});
-
-describe('node-typescript:app with jest - default configuration', function() {
-  before(function(done) {
+describe('node-typescript:app with jest - default configuration', function () {
+  before(function (done) {
     helpers
       .run(path.join(__dirname, '../generators/app'))
       .withOptions({
@@ -80,15 +48,15 @@ describe('node-typescript:app with jest - default configuration', function() {
       .on('end', done);
   });
 
-  it('creates project files', function() {
+  it('creates project files', function () {
     assert.file([
       '.vscode/tasks.json',
       '.vscode/settings.json',
       '.vscode/launch.json',
-      'src/greeter.ts',
-      'src/index.ts',
-      '__tests__/greeter-spec.ts',
-      '__tests__/index-spec.ts',
+      'src/worker.ts',
+      'src/worker-header.js',
+      '__tests__/worker-spec.ts',
+      'mock.ts',
       'package.json',
       'tsconfig.json',
       'tslint.json',

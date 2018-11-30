@@ -11,8 +11,8 @@
   },
   "keywords": [""],
   "files": ["lib"],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/<%= indexfile %>.js",
+  "typings": "lib/<%= indexfile %>.d.ts",
   "scripts": {
     "clean": "rimraf lib && rimraf coverage",
     "format":
@@ -21,16 +21,19 @@
     "prepublishOnly": "npm run build",
     "prebuild":
       "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
-    "build": "tsc --pretty",
+    "build": "gulp build",
     "test": "jest",
     "coverage": "jest --coverage",
     "watch": "npm run build -- --watch",
     "watch:test": "jest --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.3.0"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.3",
     "@types/node": "^10.11.4",
+    "@types/node-fetch": "^2.1.4",
     "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
@@ -39,14 +42,20 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "fetch-mock": "^7.2.5",
+    "gulp": "^4.0.0",
+    "gulp-just-replace": "^1.0.2",
+    "gulp-preprocess": "^3.0.1",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "gulp-print": "^5.0.0"
   },
   "engines": {
     "node": ">=6.0.0"
   },
   "jest": {
     "transform": {
-      ".(ts)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts)": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
     "moduleFileExtensions": ["ts", "js"],

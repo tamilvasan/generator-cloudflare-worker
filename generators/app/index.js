@@ -9,11 +9,9 @@ const shelljs = require('shelljs');
 module.exports = Generator.extend({
   initializing: function() {
     const done = this.async();
-
-    // Have Yeoman greet the user.
     this.log(
       yosay(
-        'Welcome to the minimal ' + chalk.red('Node TypeScript') + ' generator!'
+        'Welcome to the minimal ' + chalk.red('Cloudflare Worker') + ' generator!'
       )
     );
 
@@ -33,13 +31,8 @@ module.exports = Generator.extend({
 
     this.composeWith(
       require.resolve('../classlib'),
-      Object.assign({ arguments: ['Greeter'] }, this.options)
+      Object.assign({ arguments: ['Worker','workerHeader'] }, this.options)
     );
-
-    if (this.options.gulp) {
-      throw new Error('Gulp option is no longer supported.');
-    }
-
     done();
   },
 
@@ -53,7 +46,7 @@ module.exports = Generator.extend({
         this.templatePath('_vscode/settings.json'),
         this.destinationPath('.vscode/settings.json')
       );
-      if (!(this.options.mocha || this.options.ava)) {
+      if (!(this.options.mocha)) {
         // copy launch.json only for default jest configuration
         this.fs.copy(
           this.templatePath('_vscode/launch.json'),
@@ -64,39 +57,29 @@ module.exports = Generator.extend({
 
     rootFiles: function() {
       const today = new Date();
-
       if (this.options.mocha) {
         // copy mocha files
         this.fs.copyTpl(
           this.templatePath('_package_mocha.json'),
           this.destinationPath('package.json'),
-          { appname: _.kebabCase(path.basename(process.cwd())) }
+          { 
+            appname: _.kebabCase(path.basename(process.cwd())),
+            indexfile:_.kebabCase(this.options.className)
+          }
         );
         this.fs.copy(
           this.templatePath('travis_mocha.yml'),
           this.destinationPath('.travis.yml')
-        );
-      } else if (this.options.ava) {
-        // copy ava files
-        this.fs.copyTpl(
-          this.templatePath('_package_ava.json'),
-          this.destinationPath('package.json'),
-          { appname: _.kebabCase(path.basename(process.cwd())) }
-        );
-        this.fs.copy(
-          this.templatePath('travis_ava.yml'),
-          this.destinationPath('.travis.yml')
-        );
-        this.fs.copy(
-          this.templatePath('_tsconfig.test.json'),
-          this.destinationPath('tsconfig.test.json')
         );
       } else {
         // copy files for default jest configuration
         this.fs.copyTpl(
           this.templatePath('_package.json'),
           this.destinationPath('package.json'),
-          { appname: _.kebabCase(path.basename(process.cwd())) }
+          { 
+            appname: _.kebabCase(path.basename(process.cwd())),
+            indexfile:_.kebabCase(this.options.className)
+          }
         );
         this.fs.copy(
           this.templatePath('travis.yml'),

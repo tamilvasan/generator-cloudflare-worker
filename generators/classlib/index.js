@@ -2,7 +2,6 @@
 const _ = require('lodash');
 const Generator = require('yeoman-generator');
 const yosay = require('yosay');
-
 const PlatformMap = require('./platform-map');
 
 module.exports = Generator.extend({
@@ -12,13 +11,22 @@ module.exports = Generator.extend({
     this.argument('className', {
       type: String,
       required: true,
-      desc: 'the name of the class'
+      desc: 'the name of the worker class'
+    });
+    this.argument('workerHeader', {
+      type: String,
+      required: true,
+      desc: 'the name of the worker header'
     });
 
     this.templateContext = {
       className: this.options.className,
       fileName: _.kebabCase(this.options.className),
-      isWindows: process.platform === 'win32'
+      workerHeader: this.options.workerHeader,
+      whfileName: _.kebabCase(this.options.workerHeader),
+      isWindows: process.platform === 'win32',
+      mockFile:'mock.ts',
+      gulpFile:'Gulpfile.js'
     };
 
     this.log(yosay(`Generating ${this.templateContext.className}`));
@@ -36,30 +44,28 @@ module.exports = Generator.extend({
         this.destinationPath('src/' + this.templateContext.fileName + '.ts'),
         this.templateContext
       );
+      this.fs.copyTpl(
+        this.templatePath('src/headerblueprint.js'),
+        this.destinationPath('src/' + this.templateContext.whfileName + '.js'),
+        this.templateContext
+      );
+      this.fs.copy(
+        this.templatePath(this.templateContext.gulpFile),
+        this.destinationPath(`${this.templateContext.gulpFile}`)
+      );
     },
 
     testFiles: function () {
       if (this.options) {
         if (this.options.mocha || this.options.gulp) {
           this._writeTestTemplates('mocha');
-        } else if (this.options.ava) {
-          this._writeTestTemplates('ava');
-        } else {
+        }  else {
           this._writeTestTemplates('jest');
         }
       } else {
         this._writeTestTemplates('jest');
       }
     },
-
-    indexFile: function () {
-      this._appendTpl(
-        this.templatePath('src/index-blueprint.ts'),
-        this.destinationPath('src/index.ts'),
-        this.templateContext
-      );
-    }
-
   },
 
   _writeTestTemplates: function (testPlatform) {
@@ -68,20 +74,10 @@ module.exports = Generator.extend({
       this.templatePath(testInfo.templates.spec),
       this.destinationPath(`${testInfo.folder}/${this.templateContext.fileName}-spec.ts`),
       this.templateContext);
-
-    const indexSpec = `${testInfo.folder}/index-spec.ts`;
-
-    if (!this.fs.exists(indexSpec)) {
-      this.fs.copyTpl(
-        this.templatePath(testInfo.templates.head),
-        this.destinationPath(indexSpec),
-        this.templateContext);
-    }
-
-    this._appendTpl(
-      this.templatePath(testInfo.templates.ndx),
-      this.destinationPath(indexSpec),
-      this.templateContext);
+    this.fs.copy(
+      this.templatePath(testInfo.templates.mock),
+      this.destinationPath(`${this.templateContext.mockFile}`)
+    );
   },
 
   _appendTpl: function (from, to, context, tplSettings, options) {

@@ -1,14 +1,14 @@
 {
-  "name": "generator-node-typescript",
-  "version": "4.3.0",
-  "description": "A minimal Yeoman Generator for creating NodeJS modules using TypeScript",
+  "name": "generator-cloudflare-worker",
+  "version": "1.0.0",
+  "description": "A Yeoman Generator for creating Cloudflare Workers using NodeJS and TypeScript",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "ospatil/generator-node-typescript",
+  "repository": "tamilvasan/generator-cloudflare-worker",
   "author": {
-    "name": "Omkar Patil",
-    "email": "ospatil@gmail.com",
-    "url": "https://github.com/ospatil"
+    "name": "Sreenivasan",
+    "email": "eshock.vasan@gmail.com",
+    "url": "https://github.com/tamilvasan"
   },
   "scripts": {
     "pretest": "eslint .",
@@ -20,7 +20,9 @@
   "keywords": [
     "yeoman-generator",
     "typescript",
-    "nodejs"
+    "nodejs",
+    "cloudflare",
+    "worker"
   ],
   "dependencies": {
     "chalk": "^2.0.1",
@@ -32,7 +34,7 @@
   "devDependencies": {
     "eslint": "^4.4.0",
     "fs-extra": "^4.0.0",
-    "mocha": "^3.4.2",
+    "mocha": "^5.2.0",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^1.7.0"
   },

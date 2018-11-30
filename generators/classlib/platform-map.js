@@ -4,17 +4,15 @@ var PlatformMap = (function () {
     this.templatesMap = new Map();
     const self = this;
     const plats = [
-      'ava',
       'jest',
-      'mocha',
+      'mocha'
     ];
     plats.forEach(function (plat) {
       return self.templatesMap.set(plat, {
         folder: plat === 'jest' ? '__tests__' : 'test',
         templates: {
-          head: 'test/' + plat + '/index-spec-head.ts',
-          ndx: 'test/' + plat + '/index-spec-blueprint.ts',
           spec: 'test/' + plat + '/blueprint-spec.ts',
+          mock: 'test/mock.ts',
         },
       });
     });

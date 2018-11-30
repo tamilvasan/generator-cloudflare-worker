@@ -7,27 +7,30 @@
   "author": "",
   "keywords": [""],
   "files": ["lib"],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/<%= indexfile %>.js",
+  "typings": "lib/<%= indexfile %>.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "format": "prettier --write \"{src,test}/**/*.ts\"",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "prepublishOnly": "npm run build",
     "build":
-      "npm run format && npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
-    "test":
-      "npm run build && mocha --compilers ts:ts-node/register --recursive \"test/**/*-spec.ts\"",
+      "npm run format && npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty && gulp build",
+    "pretest": "npm run format && npm run clean && npm run lint && tsc --pretty",
+    "test": "mocha --compilers ts:ts-node/register --recursive \"test/**/*-spec.ts\"",
     "coverage":
       "nyc --include=\"src/**/*.ts\" --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive \"test/**/*-spec.ts\"",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.3.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.6",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.11.4",
+    "@types/node-fetch": "^2.1.4",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
@@ -37,7 +40,13 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^3.1.1",
-    "coveralls": "^3.0.2"
+    "coveralls": "^3.0.2",
+    "fetch-mock": "^7.2.5",
+    "gulp": "^4.0.0",
+    "gulp-just-replace": "^1.0.2",
+    "gulp-preprocess": "^3.0.1",
+    "gulp-typescript": "^5.0.0-alpha.3",
+    "gulp-print": "^5.0.0"
   },
   "engines": {
     "node": ">=6.0.0"
