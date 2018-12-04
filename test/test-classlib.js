@@ -10,7 +10,7 @@ const PlatformMap = require('../generators/classlib/platform-map');
 describe('node-typescript:classlib', function () {
   before(function (done) {
     helpers.run(path.join(__dirname, '../generators/classlib'))
-      .withArguments(['CustomerInventoryItem', 'header'])
+      .withArguments(['CustomerInventoryItem'])
       .withOptions({
         skipInstall: true
       })
@@ -20,10 +20,7 @@ describe('node-typescript:classlib', function () {
   it('creates classlib files', function () {
     assert.file([
       'src/customer-inventory-item.ts',
-      'src/header.js',
-      'Gulpfile.js',
-      '__tests__/customer-inventory-item-spec.ts',
-      'mock.ts'
+      '__tests__/customer-inventory-item-spec.ts'
     ]);
   });
 

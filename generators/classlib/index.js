@@ -13,12 +13,7 @@ module.exports = Generator.extend({
       required: true,
       desc: 'the name of the worker class'
     });
-    this.argument('workerHeader', {
-      type: String,
-      required: true,
-      desc: 'the name of the worker header'
-    });
-
+    this.options.workerHeader = 'workerHeader';
     this.templateContext = {
       className: this.options.className,
       fileName: _.kebabCase(this.options.className),
@@ -44,15 +39,6 @@ module.exports = Generator.extend({
         this.destinationPath('src/' + this.templateContext.fileName + '.ts'),
         this.templateContext
       );
-      this.fs.copyTpl(
-        this.templatePath('src/headerblueprint.js'),
-        this.destinationPath('src/' + this.templateContext.whfileName + '.js'),
-        this.templateContext
-      );
-      this.fs.copy(
-        this.templatePath(this.templateContext.gulpFile),
-        this.destinationPath(`${this.templateContext.gulpFile}`)
-      );
     },
 
     testFiles: function () {
@@ -74,10 +60,6 @@ module.exports = Generator.extend({
       this.templatePath(testInfo.templates.spec),
       this.destinationPath(`${testInfo.folder}/${this.templateContext.fileName}-spec.ts`),
       this.templateContext);
-    this.fs.copy(
-      this.templatePath(testInfo.templates.mock),
-      this.destinationPath(`${this.templateContext.mockFile}`)
-    );
   },
 
   _appendTpl: function (from, to, context, tplSettings, options) {

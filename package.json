@@ -11,7 +11,7 @@
     "url": "https://github.com/tamilvasan"
   },
   "scripts": {
-    "pretest": "eslint .",
+    "pre00test": "eslint .",
     "test": "mocha"
   },
   "files": [

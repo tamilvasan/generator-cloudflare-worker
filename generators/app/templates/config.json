@@ -1,0 +1,48 @@
+{
+    "api_endpoint": "https://api.cloudflare.com/client/v4/",
+    "zoneid": "NODE_CF_ZONE_ID", 
+    "accountid": "NODE_CF_ACCOUNT_ID",
+    "email": "NODE_CF_EMAIL",
+    "auth_key": "NODE_CF_AUTH_KEY",
+    "cf_pricing": "NODE_CF_PRICING",
+    "enterprise": {
+        "endpoint": {
+            "upload_worker": "accounts/:accountid/workers/scripts/:script_name",
+            "create_route": "zones/:zone_id/workers/routes",
+            "update_route": "zones/:zone_id/workers/routes/:route_id"
+        }
+    },
+    "pro_or_less": {
+        "endpoint": {
+            "upload_worker": "zones/:zone_id/workers/script"
+        }
+    },
+    "development": {
+        "workers": [
+            {
+                "script_name": "script name for dev",
+                "script_path": "path to script",
+                "routes": [
+                    {
+                        "route": "<place your route pattern here>",
+                        "id":"<place route id> for update route through enterprise plan"
+                    }
+                ]
+            }
+        ]
+    },
+    "production": {
+        "workers": [
+            {
+                "script_name": "script name for production",
+                "script_path": "path to script",
+                "routes": [
+                    {
+                        "route": "<place your route pattern here>",
+                        "id":"<place route id> for update route through enterprise plan"
+                    }
+                ]
+            }
+        ]
+    }
+}

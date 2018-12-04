@@ -31,7 +31,7 @@ module.exports = Generator.extend({
 
     this.composeWith(
       require.resolve('../classlib'),
-      Object.assign({ arguments: ['Worker','workerHeader'] }, this.options)
+      Object.assign({ arguments: ['Worker'] }, this.options)
     );
     done();
   },
@@ -71,6 +71,7 @@ module.exports = Generator.extend({
           this.templatePath('travis_mocha.yml'),
           this.destinationPath('.travis.yml')
         );
+        
       } else {
         // copy files for default jest configuration
         this.fs.copyTpl(
@@ -85,8 +86,26 @@ module.exports = Generator.extend({
           this.templatePath('travis.yml'),
           this.destinationPath('.travis.yml')
         );
+        
       }
       // copy files common for all configurations
+      this.fs.copy(
+        this.templatePath('gulpfile.js'),
+        this.destinationPath('gulpfile.js')
+      );
+      this.fs.copy(
+        this.templatePath('config.json'),
+        this.destinationPath('config.json')
+      );
+      this.fs.copyTpl(
+        this.templatePath('worker-header.js'),
+        this.destinationPath('./src/worker-header.js'),
+        {  className: this.options.className }
+      );
+      this.fs.copy(
+        this.templatePath('mock.ts'),
+        this.destinationPath('mock.ts')
+      );
       this.fs.copy(
         this.templatePath('README.md'),
         this.destinationPath('README.md')
