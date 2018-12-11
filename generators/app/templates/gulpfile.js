@@ -8,7 +8,7 @@ var rest = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
 
-gulp.task('transform', function () {
+gulp.task('build', function () {
     var tsProject = ts.createProject('tsconfig.json');
     return gulp.src('src/**/*.ts')
         .pipe(print(filepath => `source: ${filepath}`))
@@ -19,12 +19,18 @@ gulp.task('transform', function () {
         .pipe(gulp.dest('lib'))
 });
 gulp.task('publishdev', function () {
-    publishWorker();
+    return new Promise(function(resolve) {
+        publishWorker();
+        resolve();
+    });
 });
 gulp.task('publish', function () {
-    publishWorker('production');
+    return new Promise(function(resolve) {
+        publishWorker('production');
+        resolve();
+    });
 });
-gulp.task('build', ['transform']);
+
 
 function publishWorker(environment){
     let isEnterprise = process.env[config.cf_pricing] === 'enterprise';
