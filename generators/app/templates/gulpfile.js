@@ -3,8 +3,12 @@ var ts = require('gulp-typescript');
 var preprocess = require("gulp-preprocess");
 var replace = require('gulp-just-replace');
 var print = require('gulp-print').default;
+var config = require('./config.json');
+var rest = require('node-fetch');
+const fs = require('fs');
+const path = require('path');
 
-gulp.task('build', function () {
+gulp.task('transform', function () {
     var tsProject = ts.createProject('tsconfig.json');
     return gulp.src('src/**/*.ts')
         .pipe(print(filepath => `source: ${filepath}`))
@@ -20,6 +24,7 @@ gulp.task('publishdev', function () {
 gulp.task('publish', function () {
     publishWorker('production');
 });
+gulp.task('build', ['transform']);
 
 function publishWorker(environment){
     let isEnterprise = process.env[config.cf_pricing] === 'enterprise';
@@ -36,24 +41,25 @@ function enterprisePublish(environment){
     url=url.replace(':accountid',process.env[config.accountid]);
     let envConfig = config[environment];
     envConfig.workers.forEach(worker => {
-        url=url.replace(':script_name',worker.script_name);
-        uploadWorker(url,worker,()=> {
-            worker.routes.forEach(route =>{
-                let url = config.api_endpoint + (route.id ? workerEndpoint.update_route : workerEndpoint.create_route);
-                url = url.replace(":zone_id",process.env[config.zoneid]);
+        let workerItem = worker;
+        let uploadEndpoint=url.replace(':script_name',workerItem.script_name);
+        uploadWorker(uploadEndpoint,workerItem.script_path,()=> {
+            workerItem.routes.forEach(route =>{
+                let routeEndpoint = config.api_endpoint + (route.id ? workerEndpoint.update_route : workerEndpoint.create_route);
+                routeEndpoint = routeEndpoint.replace(":zone_id",process.env[config.zoneid]);
                 let routeItem = {pattern:route.route,script_name:worker.script_name,is_update:false}
                 if(route.id){
-                    url = url.replace(":route_id",route.id);
+                    routeEndpoint = routeEndpoint.replace(":route_id",route.id);
                     routeItem.is_update = true;
                 }
-                mapRouteToScript(url,routeItem);
+                setTimeout( () => { mapRouteToScript(routeEndpoint,routeItem);},1000);
             });
         });
     });
 }
 
-function uploadWorker(url,worker,callback) {
-    let scriptPath = path.resolve(worker.script_path);
+function uploadWorker(apiEndPoint,scriptPath,callback) {
+    scriptPath = path.resolve(scriptPath);
     if (!fs.existsSync(scriptPath)) {
         console.error(`path not found ${scriptPath}`);
     }
@@ -64,7 +70,7 @@ function uploadWorker(url,worker,callback) {
         body:script        
     };
     options = appendApiHeaders(options);
-    sendRequest(url,options,callback);
+    sendRequest(apiEndPoint,options,callback);
 }
 
 function appendApiHeaders(options){
@@ -77,9 +83,7 @@ function appendApiHeaders(options){
 function sendRequest(url,options,callback){
     rest(url,options).then(res=>{
         if(res.ok && callback)
-            callback();
-        else
-            throw new Error('Cloudflare Api Error: ' + JSON.stringify(res));
+           callback();
     }).catch(err => console.error(err));
 }
 
