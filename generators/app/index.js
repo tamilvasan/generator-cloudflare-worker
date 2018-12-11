@@ -97,11 +97,12 @@ module.exports = Generator.extend({
         this.templatePath('config.json'),
         this.destinationPath('config.json')
       );
+      /*console.log(this.options);
       this.fs.copyTpl(
         this.templatePath('worker-header.js'),
         this.destinationPath('./src/worker-header.js'),
         {  className: this.options.className }
-      );
+      );*/
       this.fs.copy(
         this.templatePath('mock.ts'),
         this.destinationPath('mock.ts')

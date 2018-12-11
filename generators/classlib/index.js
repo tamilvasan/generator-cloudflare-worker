@@ -39,6 +39,14 @@ module.exports = Generator.extend({
         this.destinationPath('src/' + this.templateContext.fileName + '.ts'),
         this.templateContext
       );
+      let workerHeaderFile = this.destinationPath('src/worker-header.js');
+      if(!this.fs.exists(workerHeaderFile)){
+        this.fs.copyTpl(
+          this.templatePath('worker-header.js'),
+          workerHeaderFile,
+          this.templateContext
+        );
+      }
     },
 
     testFiles: function () {
