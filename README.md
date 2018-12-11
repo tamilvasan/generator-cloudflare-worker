@@ -53,7 +53,7 @@ npm run build
 ```
 
 ## Publish the worker
-Cloudflare provides two set of endpoint to upload the worker into Cloudflare, one for enterprise customers and one for all customers. We can completely configure worker without UI through enterprise endpoint but in cause common endpoint we need UI to map the worker and route. 
+Cloudflare provides two set of endpoint to upload the worker into Cloudflare, one for enterprise customers and other for all other customers. Enterprise customers can configure worker completely without UI through enterprise endpoint but it is not possible for other customers. 
 
 The gulp build scripts support for both types of endpoint and you can use it depend on your needs.
 
@@ -79,7 +79,7 @@ npm run publishdev
 npm run publish
 ```
 _*Note:*_
-_Non enterprise customer should manually configure route and mapping to uploaded worker through Cloudflare portal._
+_Non enterprise customer should manually configure a route and route mapping to the uploaded worker through Cloudflare portal._
 
 ## License
 
