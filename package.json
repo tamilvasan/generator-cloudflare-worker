@@ -1,6 +1,6 @@
 {
   "name": "generator-cloudflare-worker",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A Yeoman Generator for creating Cloudflare Workers using NodeJS and TypeScript",
   "license": "MIT",
   "main": "app/index.js",

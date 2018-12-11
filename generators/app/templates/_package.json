@@ -25,7 +25,9 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "watch": "npm run build -- --watch",
-    "watch:test": "jest --watch"
+    "watch:test": "jest --watch",
+    "publishdev": "npm run build && gulp publishdev",
+    "publish": "gulp publish"
   },
   "dependencies": {
     "node-fetch": "^2.3.0"

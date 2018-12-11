@@ -21,7 +21,9 @@
     "coverage":
       "nyc --include=\"src/**/*.ts\" --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive \"test/**/*-spec.ts\"",
     "watch": "npm run build -- --watch",
-    "watch:test": "npm run test -- --watch"
+    "watch:test": "npm run test -- --watch",
+    "publishdev": "npm run build && gulp publishdev",
+    "publish": "gulp publish"
   },
   "dependencies": {
     "node-fetch": "^2.3.0"
