@@ -65,7 +65,7 @@ The gulp build scripts support for both types of endpoint and you can use it dep
 * Once you gathered above information, create the following environment variables to hold these information
     * NODE_CF_ZONE_ID
     * NODE_CF_ACCOUNT_ID
-    * NODE_CF_PRICING
+    * NODE_CF_PRICING((enterprise|non-enterprise))
     * NODE_CF_EMAIL
     * NODE_CF_AUTH_KEY
 
